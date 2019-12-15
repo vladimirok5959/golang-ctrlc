@@ -72,3 +72,16 @@ func main() {
 	ctrlc.App(8*time.Second, MyAppFunc)
 }
 ```
+
+## Explanation
+```
+type Iface interface {
+	Shutdown(ctx context.Context) error
+}
+
+type CallbackFunc func(ctx context.Context, shutdown context.CancelFunc) *[]Iface
+
+func App(t time.Duration, f CallbackFunc)
+```
+
+**t** in `App` function is a timeout for `Shutdown` function, if Shutdown function will be not closed, context will be canceled afetr this value and will print error to console.
