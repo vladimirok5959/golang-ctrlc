@@ -49,6 +49,9 @@ func main() {
 			if err := srv.ListenAndServe(); err != nil {
 				if err != http.ErrServerClosed {
 					fmt.Printf("Web server startup error: %s\n", err.Error())
+					// Application can't working without http web server
+					// Call cancel context func on error
+					cancel()
 					return
 				}
 			}

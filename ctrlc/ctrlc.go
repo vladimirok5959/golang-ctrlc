@@ -39,37 +39,50 @@ func App(t time.Duration, f CallbackFunc) {
 	sctx, shutdown := context.WithCancel(context.Background())
 	ifaces := f(sctx, shutdown)
 
-	switch val := <-stop; val {
-	case syscall.SIGINT:
+	select {
+	case <-sctx.Done():
 		fmt.Printf(
 			"\r"+C_ICON_WARN+" %s\n",
 			cly(
 				fmt.Sprintf(
-					"Shutting down (interrupt) (%d sec)",
+					"Shutting down (application) (%d sec)",
 					t/time.Second,
 				),
 			),
 		)
-	case syscall.SIGTERM:
-		fmt.Printf(
-			C_ICON_WARN+" %s\n",
-			cly(
-				fmt.Sprintf(
-					"Shutting down (terminate) (%d sec)",
-					t/time.Second,
+	case val := <-stop:
+		switch val {
+		case syscall.SIGINT:
+			fmt.Printf(
+				"\r"+C_ICON_WARN+" %s\n",
+				cly(
+					fmt.Sprintf(
+						"Shutting down (interrupt) (%d sec)",
+						t/time.Second,
+					),
 				),
-			),
-		)
-	default:
-		fmt.Printf(
-			C_ICON_WARN+" %s\n",
-			cly(
-				fmt.Sprintf(
-					"Shutting down (%d sec)",
-					t/time.Second,
+			)
+		case syscall.SIGTERM:
+			fmt.Printf(
+				C_ICON_WARN+" %s\n",
+				cly(
+					fmt.Sprintf(
+						"Shutting down (terminate) (%d sec)",
+						t/time.Second,
+					),
 				),
-			),
-		)
+			)
+		default:
+			fmt.Printf(
+				C_ICON_WARN+" %s\n",
+				cly(
+					fmt.Sprintf(
+						"Shutting down (%d sec)",
+						t/time.Second,
+					),
+				),
+			)
+		}
 	}
 
 	shutdown()
