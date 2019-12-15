@@ -2,6 +2,7 @@ package ctrlc
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -22,13 +23,20 @@ type Iface interface {
 type CallbackFunc func(ctx context.Context, shutdown context.CancelFunc) *[]Iface
 
 func App(t time.Duration, f CallbackFunc) {
+	var ParamColor string
+	flag.StringVar(&ParamColor, "color", "auto", "color output (auto/always/never)")
+	flag.Parse()
+
+	useColors := !IS_WIN_PLATFORM && ParamColor == "always"
+
 	stop := make(chan os.Signal)
 	signal.Notify(stop, syscall.SIGTERM)
 	signal.Notify(stop, syscall.SIGINT)
 
 	fmt.Printf(
-		C_ICON_START+" %s\n",
+		icon_start(useColors)+"%s\n",
 		cly(
+			useColors,
 			fmt.Sprintf(
 				"Application started (%d sec)",
 				t/time.Second,
@@ -42,8 +50,9 @@ func App(t time.Duration, f CallbackFunc) {
 	select {
 	case <-sctx.Done():
 		fmt.Printf(
-			"\r"+C_ICON_WARN+" %s\n",
+			"\r"+icon_warn(useColors)+"%s\n",
 			cly(
+				useColors,
 				fmt.Sprintf(
 					"Shutting down (application) (%d sec)",
 					t/time.Second,
@@ -54,8 +63,9 @@ func App(t time.Duration, f CallbackFunc) {
 		switch val {
 		case syscall.SIGINT:
 			fmt.Printf(
-				"\r"+C_ICON_WARN+" %s\n",
+				"\r"+icon_warn(useColors)+"%s\n",
 				cly(
+					useColors,
 					fmt.Sprintf(
 						"Shutting down (interrupt) (%d sec)",
 						t/time.Second,
@@ -64,8 +74,9 @@ func App(t time.Duration, f CallbackFunc) {
 			)
 		case syscall.SIGTERM:
 			fmt.Printf(
-				C_ICON_WARN+" %s\n",
+				icon_warn(useColors)+"%s\n",
 				cly(
+					useColors,
 					fmt.Sprintf(
 						"Shutting down (terminate) (%d sec)",
 						t/time.Second,
@@ -74,8 +85,9 @@ func App(t time.Duration, f CallbackFunc) {
 			)
 		default:
 			fmt.Printf(
-				C_ICON_WARN+" %s\n",
+				icon_warn(useColors)+"%s\n",
 				cly(
+					useColors,
 					fmt.Sprintf(
 						"Shutting down (%d sec)",
 						t/time.Second,
@@ -93,12 +105,15 @@ func App(t time.Duration, f CallbackFunc) {
 		if err := iface.Shutdown(ctx); err != nil {
 			errors = true
 			fmt.Printf(
-				C_ICON_HOT+" %s\n",
-				clr(fmt.Sprintf(
-					"Shutdown error (%T): %s",
-					iface,
-					err.Error(),
-				)),
+				icon_hot(useColors)+"%s\n",
+				clr(
+					useColors,
+					fmt.Sprintf(
+						"Shutdown error (%T): %s",
+						iface,
+						err.Error(),
+					),
+				),
 			)
 		}
 	}
@@ -106,8 +121,9 @@ func App(t time.Duration, f CallbackFunc) {
 
 	if errors {
 		fmt.Printf(
-			C_ICON_MAG+" %s\n",
+			icon_mag(useColors)+"%s\n",
 			cly(
+				useColors,
 				fmt.Sprintf(
 					"Application exited with errors (%d sec)",
 					t/time.Second,
@@ -117,8 +133,9 @@ func App(t time.Duration, f CallbackFunc) {
 		os.Exit(1)
 	} else {
 		fmt.Printf(
-			C_ICON_SC+" %s\n",
+			icon_sc(useColors)+"%s\n",
 			clg(
+				useColors,
 				fmt.Sprintf(
 					"Application exited successfully (%d sec)",
 					t/time.Second,

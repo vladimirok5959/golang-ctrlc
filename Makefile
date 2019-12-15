@@ -10,7 +10,7 @@ test:
 	go test ./...
 
 run:
-	@./out
+	@./out --color=always
 
 update:
 	go mod vendor
