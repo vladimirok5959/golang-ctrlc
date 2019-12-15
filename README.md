@@ -85,3 +85,5 @@ func App(t time.Duration, f CallbackFunc)
 ```
 
 **t** in `App` function is a timeout for `Shutdown` function, if Shutdown function will be not closed, context will be canceled afetr this value and will print error to console. **f** - is function for main application code with cancel context inside, `ctx` will be triggered when application got one of close/terminate signals and we can terminate application by calling `shutdown` function.
+
+Callback function `f` in `App` must return pointer to array of interfaces which must contain/implement `Shutdown(ctx context.Context) error` function for correct shutdown.
