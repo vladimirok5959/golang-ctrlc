@@ -10,8 +10,9 @@ import (
 )
 
 func main() {
-	ctrlc.App(8*time.Second, func(ctx context.Context) *[]ctrlc.Iface {
+	AppFunc := func(ctx context.Context, cancel context.CancelFunc) *[]ctrlc.Iface {
 		// Some custom logic
+		// With goroutine inside
 		test := Run()
 
 		// Http web server
@@ -32,6 +33,7 @@ func main() {
 					return
 				default:
 					// Main some logic
+					// Some very long logic, just for example
 					time.Sleep(1 * time.Millisecond)
 				}
 			}
@@ -53,5 +55,8 @@ func main() {
 		}()
 
 		return &[]ctrlc.Iface{test, srv}
-	})
+	}
+
+	// Run application
+	ctrlc.App(8*time.Second, AppFunc)
 }
