@@ -19,7 +19,7 @@ type Iface interface {
 	Shutdown(ctx context.Context) error
 }
 
-type CallbackFunc func(ctx context.Context, cancel context.CancelFunc) *[]Iface
+type CallbackFunc func(ctx context.Context, shutdown context.CancelFunc) *[]Iface
 
 func App(t time.Duration, f CallbackFunc) {
 	stop := make(chan os.Signal)

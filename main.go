@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	MyAppFunc := func(ctx context.Context, cancel context.CancelFunc) *[]ctrlc.Iface {
+	MyAppFunc := func(ctx context.Context, shutdown context.CancelFunc) *[]ctrlc.Iface {
 		// Some custom logic
 		// With goroutine inside
 		test := Run()
@@ -51,7 +51,7 @@ func main() {
 					fmt.Printf("Web server startup error: %s\n", err.Error())
 					// Application can't working without http web server
 					// Call cancel context func on error
-					cancel()
+					shutdown()
 					return
 				}
 			}
