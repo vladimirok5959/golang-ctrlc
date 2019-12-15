@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	AppFunc := func(ctx context.Context, cancel context.CancelFunc) *[]ctrlc.Iface {
+	MyAppFunc := func(ctx context.Context, cancel context.CancelFunc) *[]ctrlc.Iface {
 		// Some custom logic
 		// With goroutine inside
 		test := Run()
@@ -61,5 +61,5 @@ func main() {
 	}
 
 	// Run application
-	ctrlc.App(8*time.Second, AppFunc)
+	ctrlc.App(8*time.Second, MyAppFunc)
 }
