@@ -22,7 +22,11 @@ type Iface interface {
 
 type CallbackFunc func(ctx context.Context, shutdown context.CancelFunc) *[]Iface
 
-func App(t time.Duration, f CallbackFunc) {
+func App(f CallbackFunc) {
+	AppWithTimeOut(8*time.Second, f)
+}
+
+func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, syscall.SIGTERM)
 	signal.Notify(stop, syscall.SIGINT)

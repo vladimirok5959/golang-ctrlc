@@ -67,5 +67,5 @@ func main() {
 	}
 
 	// Run application
-	ctrlc.App(8*time.Second, MyAppFunc)
+	ctrlc.App(MyAppFunc)
 }
