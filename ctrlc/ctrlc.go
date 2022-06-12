@@ -36,7 +36,7 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 		cly(
 			UseColors(),
 			fmt.Sprintf(
-				"Application started (%d sec)",
+				"Application started (timeout %d sec)",
 				t/time.Second,
 			),
 		),
@@ -52,7 +52,7 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 			cly(
 				UseColors(),
 				fmt.Sprintf(
-					"Shutting down (application) (%d sec)",
+					"Shutting down (application) (timeout %d sec)",
 					t/time.Second,
 				),
 			),
@@ -65,7 +65,7 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 				cly(
 					UseColors(),
 					fmt.Sprintf(
-						"Shutting down (interrupt) (%d sec)",
+						"Shutting down (interrupt) (timeout %d sec)",
 						t/time.Second,
 					),
 				),
@@ -76,7 +76,7 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 				cly(
 					UseColors(),
 					fmt.Sprintf(
-						"Shutting down (terminate) (%d sec)",
+						"Shutting down (terminate) (timeout %d sec)",
 						t/time.Second,
 					),
 				),
@@ -87,7 +87,7 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 				cly(
 					UseColors(),
 					fmt.Sprintf(
-						"Shutting down (%d sec)",
+						"Shutting down (timeout %d sec)",
 						t/time.Second,
 					),
 				),
@@ -123,7 +123,7 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 			cly(
 				UseColors(),
 				fmt.Sprintf(
-					"Application exited with errors (%d sec)",
+					"Application exited with errors (timeout %d sec)",
 					t/time.Second,
 				),
 			),
@@ -135,7 +135,7 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 			clg(
 				UseColors(),
 				fmt.Sprintf(
-					"Application exited successfully (%d sec)",
+					"Application exited successfully (timeout %d sec)",
 					t/time.Second,
 				),
 			),
