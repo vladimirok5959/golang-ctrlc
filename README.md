@@ -91,7 +91,7 @@ type Iface interface {
 
 type CallbackFunc func(ctx context.Context, shutdown context.CancelFunc) *[]Iface
 
-func App(t time.Duration, f CallbackFunc)
+func App(f CallbackFunc)
 ```
 
 **t** in `App` function is a timeout for `Shutdown` function, if Shutdown function will be not closed, context will be canceled afetr this value and will print error to console. **f** - is function for main application code with cancel context inside, `ctx` will be triggered when application got one of close/terminate signals and we can terminate application by calling `shutdown` function.
