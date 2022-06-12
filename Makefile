@@ -1,17 +1,19 @@
-default: debug test run
+default: test
 
-debug:
-	go vet ./...
-	gofmt -d ./
-	gofmt -w ./
-	go build -mod vendor -o ./out
+clean:
+	go clean -testcache ./...
 
 test:
 	go test ./...
 
-run:
-	@./out --color=always
+lint:
+	golangci-lint run --disable=structcheck
 
-update:
-	go mod vendor
-	go mod download
+tidy:
+	go mod tidy
+
+run:
+	go build -mod vendor -o ./out
+	./out --color=always
+
+.PHONY: default clean test lint tidy run
