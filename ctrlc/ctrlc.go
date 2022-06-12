@@ -104,16 +104,16 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 			if !errors {
 				errors = true
 			}
+			var msg string
+			switch err.(type) {
+			case *Error:
+				msg = fmt.Sprintf("%s", err.Error())
+			default:
+				msg = fmt.Sprintf("Shutdown error (%T): %s", iface, err.Error())
+			}
 			fmt.Printf(
 				icon_hot(UseColors())+"%s\n",
-				clr(
-					UseColors(),
-					fmt.Sprintf(
-						"Shutdown error (%T): %s",
-						iface,
-						err.Error(),
-					),
-				),
+				clr(UseColors(), msg),
 			)
 		}
 	}
