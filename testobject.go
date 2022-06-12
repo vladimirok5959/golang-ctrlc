@@ -32,13 +32,13 @@ func Run() *TestObject {
 	return w
 }
 
-func (this *TestObject) Shutdown(ctx context.Context) error {
+func (t *TestObject) Shutdown(ctx context.Context) error {
 	fmt.Printf("[TestObject]: OK! I will shutdown!\n")
 
-	this.cancel()
+	t.cancel()
 
 	select {
-	case <-this.chDone:
+	case <-t.chDone:
 		return nil
 	case <-ctx.Done():
 		return ctx.Err()
