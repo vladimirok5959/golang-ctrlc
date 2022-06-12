@@ -40,8 +40,14 @@ func main() {
 
 			fmt.Printf("After 12 seconds!\n")
 			w.Header().Set("Content-Type", "text/html")
-			w.Write([]byte(`<div>After 12 seconds!</div>`))
-			w.Write([]byte(`<div>` + r.URL.Path + `</div>`))
+			if _, err := w.Write([]byte(`<div>After 12 seconds!</div>`)); err != nil {
+				fmt.Printf("%s\n", err.Error())
+				return
+			}
+			if _, err := w.Write([]byte(`<div>` + r.URL.Path + `</div>`)); err != nil {
+				fmt.Printf("%s\n", err.Error())
+				return
+			}
 		})
 		srv := &http.Server{Addr: "127.0.0.1:8080", Handler: mux}
 		go func() {
