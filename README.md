@@ -5,7 +5,7 @@ Wrapper with context for safe application closing by signals like ctrl+c or kill
 ```
 go get github.com/vladimirok5959/golang-ctrlc
 ```
-```
+```go
 package main
 
 import (
