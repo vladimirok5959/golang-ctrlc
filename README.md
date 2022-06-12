@@ -23,6 +23,10 @@ func main() {
 		// With goroutine inside
 		test := Run()
 
+		// err1 := fmt.Errorf("Startup error 1")
+		// err2 := fmt.Errorf("Startup error 2")
+		// return ctrlc.MakeError(shutdown, ctrlc.AppError(err1), ctrlc.AppError(err2))
+
 		// Http web server
 		mux := http.NewServeMux()
 		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

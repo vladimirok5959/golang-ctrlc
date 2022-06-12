@@ -101,7 +101,9 @@ func AppWithTimeOut(t time.Duration, f CallbackFunc) {
 	ctx, cancel := context.WithTimeout(context.Background(), t)
 	for _, iface := range *ifaces {
 		if err := iface.Shutdown(ctx); err != nil {
-			errors = true
+			if !errors {
+				errors = true
+			}
 			fmt.Printf(
 				icon_hot(UseColors())+"%s\n",
 				clr(
@@ -179,4 +181,9 @@ func UseColors() bool {
 		)
 	}
 	return !IS_WIN_PLATFORM && useColors
+}
+
+func MakeError(shutdown context.CancelFunc, ifaces ...Iface) *[]Iface {
+	shutdown()
+	return &ifaces
 }
