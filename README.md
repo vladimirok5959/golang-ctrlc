@@ -1,10 +1,13 @@
 # golang-ctrlc
+
 Wrapper with context for safe application closing by signals like ctrl+c or kill
 
 ## How to use
-```
+
+```sh
 go get github.com/vladimirok5959/golang-ctrlc
 ```
+
 ```go
 package main
 
@@ -84,7 +87,8 @@ func main() {
 ```
 
 ## Explanation
-```
+
+```go
 type Iface interface {
 	Shutdown(ctx context.Context) error
 }
@@ -92,8 +96,9 @@ type Iface interface {
 type CallbackFunc func(ctx context.Context, shutdown context.CancelFunc) *[]Iface
 
 func App(f CallbackFunc)
+func AppWithTimeOut(t time.Duration, f CallbackFunc)
 ```
 
-**t** in `App` function is a timeout for `Shutdown` function, if Shutdown function will be not closed, context will be canceled afetr this value and will print error to console. **f** - is function for main application code with cancel context inside, `ctx` will be triggered when application got one of close/terminate signals and we can terminate application by calling `shutdown` function.
+**t** in `App` function 8 seconds is a default timeout for `Shutdown` function, if Shutdown function will be not closed, context will be canceled aftet this value and will print error to console. **f** - is function for main application code with cancel context inside, `ctx` will be triggered when application got one of close/terminate signals and we can terminate application by calling `shutdown` function
 
-Callback function `f` in `App` must return pointer to array of interfaces which must contain/implement `Shutdown(ctx context.Context) error` function for correct shutdown.
+Callback function `f` in `App` must return pointer to array of interfaces which must contain/implement `Shutdown(ctx context.Context) error` function for correct shutdown
