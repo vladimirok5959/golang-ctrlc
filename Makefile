@@ -7,7 +7,7 @@ test:
 	go test ./...
 
 lint:
-	golangci-lint run --disable=structcheck
+	golangci-lint run
 
 tidy:
 	go mod tidy
